@@ -30,6 +30,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  shared_preferences: ^2.2.2
+  form_field_validator: ^1.1.0
+  persistent_bottom_nav_bar: ^5.0.2
+  provider: ^6.1.1
+  sqflite: ^2.3.0
+  cached_network_image: ^3.3.0
+  favicon: ^1.1.1
+  intl: ^0.18.1
+  path: ^1.8.3
+  flutter_svg: ^2.0.9
+  flutter_native_splash: ^2.3.6
 
 
   # The following adds the Cupertino Icons font to your application.
