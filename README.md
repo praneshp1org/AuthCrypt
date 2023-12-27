@@ -11,8 +11,7 @@
 - Password Strength Meter
 
 **Screenshots** 
-### Saved Passwords Screen
-![Saved Passwords] (screenshots/savedPasswords.jpg)
+![Saved Passwords](screenshots/savedPasswords.jpg)
 
 **Packages we are using:**
 - shared_preferences: [link](https://pub.dev/packages/shared_preferences)
