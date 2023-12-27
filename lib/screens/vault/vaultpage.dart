@@ -38,7 +38,7 @@ class _VaultPageState extends State<VaultPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Vault',
+          'Passwords',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,

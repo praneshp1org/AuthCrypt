@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.lock_outline),
-        title: "Vault",
+        title: "Passwords",
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Colors.grey.shade600,
       ),

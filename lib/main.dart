@@ -1,6 +1,7 @@
 import 'package:authcrypt/provider/addPasswordProvider.dart';
 import 'package:authcrypt/provider/generatedPasswordProvider.dart';
 import 'package:authcrypt/provider/themeProvider.dart';
+import 'package:authcrypt/screens/authentication/login.dart';
 import 'package:authcrypt/screens/onBoardingPage.dart';
 import 'package:authcrypt/services/databaseService.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +64,8 @@ class _MyAppState extends State<MyApp> {
           title: Consts.APP_NAME,
           theme: Styles.themeData(
               context.watch<ThemeProvider>().getDarkTheme, context),
-          //home: isviewed != 0 ? const OnBoardingSceen() : const LoginPage(),
-          home: OnBoardingSceen(),
+          home: isviewed != 0 ? const OnBoardingSceen() : const LoginPage(),
+          // home: OnBoardingSceen(),
         );
       },
     );
