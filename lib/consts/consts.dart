@@ -8,7 +8,7 @@ class Consts {
       'store and protect your passwords '
       'from cybercriminals.';
   static const SUBTITLE_2 =
-      'AuthCrypt uses a Advanced Encryption Standard(AES) '
+      'AuthCrypt uses a Advanced Encryption Standard(AES), biometric and master password '
       'to protect your passwords. '
       'Your passwords are private even from us.';
 }
