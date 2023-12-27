@@ -11,8 +11,16 @@
 - Password Strength Meter
 
 ## Screenshots
-
+**Saved Passwords**
 ![Saved Passwords](screenshots/savedPasswords.jpg)
+**Master Password**
+![Master Password](screenshots/masterPassword.jpg)
+**Change Master Password**
+![Change Master Password](screenshots/changeMasterPassword.jpg)
+**Password Generator**
+![Password Generator](screenshots/passwordGenerator2.jpg)
+
+
 
 **Packages we are using:**
 - shared_preferences: [link](https://pub.dev/packages/shared_preferences)
