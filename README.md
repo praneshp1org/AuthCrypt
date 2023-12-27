@@ -48,5 +48,10 @@
     │       ├── vaultpage.dart
     │       └── viewPassword.dart
     ├── services
+            ├── databaseService.dart
+    │       ├── themePreferences.dart
     ├── utils
     └── widgets
+            ├── customButton.dart
+    │       ├── customSearchField.dart
+    │     
