@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               _buildSettingList(
                 context: context,
-                title: 'Backup Data',
+                title: 'Sync with other device',
                 icon: Icons.backup_outlined,
                 ontap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
