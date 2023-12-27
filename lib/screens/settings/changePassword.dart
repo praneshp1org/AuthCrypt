@@ -16,6 +16,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
   bool isObsecured = true;
+  bool isAuthenticated = false;
   final focus = FocusNode();
   _savePassword(String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

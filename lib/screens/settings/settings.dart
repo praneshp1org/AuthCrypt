@@ -1,10 +1,31 @@
 import 'package:authcrypt/provider/themeProvider.dart';
 import 'package:authcrypt/screens/settings/changePassword.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool didAuthenticate = false;
+  authenticate() async {
+    var localAuth = LocalAuthentication();
+    didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Authenticate to view password!',
+        options: AuthenticationOptions(biometricOnly: true, stickyAuth: true));
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authenticate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +53,19 @@ class SettingsPage extends StatelessWidget {
                 title: 'Change Password',
                 icon: Icons.password_outlined,
                 ontap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChangePasswordPage(),
-                    ),
-                  );
+                  if (didAuthenticate) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordPage(),
+                      ),
+                    );
+                    // didAuthenticate = !didAuthenticate;
+                  } else {
+                    const snackBar =
+                        SnackBar(content: Text('You have to authenticate!'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
                 },
               ),
               SizedBox(
