@@ -10,7 +10,8 @@
 - Random password generation feature
 - Password Strength Meter
 
-**Screenshots** 
+## Screenshots
+
 ![Saved Passwords](screenshots/savedPasswords.jpg)
 
 **Packages we are using:**
