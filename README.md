@@ -10,6 +10,10 @@
 - Random password generation feature
 - Password Strength Meter
 
+**Screenshots** 
+### Saved Passwords Screen
+![Saved Passwords] (screenshots/savedPasswords.jpg)
+
 **Packages we are using:**
 - shared_preferences: [link](https://pub.dev/packages/shared_preferences)
 - persistent_bottom_nav_bar: [link](https://pub.dev/packages/persistent_bottom_nav_bar)
@@ -58,6 +62,4 @@
             ├── customSearchField.dart  
 
 
-## Screenshots  
-### Saved Passwords Screen
-![Saved Passwords] (screenshots/savedPasswords.jpg))
+
