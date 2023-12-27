@@ -40,31 +40,71 @@ class _ViewPasswordState extends State<ViewPassword> {
 
   final GlobalKey<FormState> _viewPasswordformKey = GlobalKey<FormState>();
 
+  // void validate(BuildContext context) async {
+  //   final FormState form = _viewPasswordformKey.currentState!;
+
+  //   if (form.validate()) {
+  //     final newPass = AddPasswordModel(
+  //       addeddate: context.read<AddPasswordProvider>().addeddate,
+  //       title: titlecontroller.text.trim(),
+  //       url: urlcontroller.text.trim(),
+  //       username: usernamecontroller.text.trim(),
+  //       password: passwordcontroller.text.trim(),
+  //       notes: notescontroller.text.trim(),
+  //       id: context.read<AddPasswordProvider>().id,
+  //     );
+  //     context
+  //         .read<DatabaseService>()
+  //         .updatePassword(
+  //           password: newPass,
+  //         )
+  //         .then((value) {
+  //       context.read<AddPasswordProvider>().userPasswords = [];
+
+  //       context.read<AddPasswordProvider>().fatchdata;
+  //     });
+
+  //     Navigator.pop(context);
+  //   } else {
+  //     const snackbar = SnackBar(
+  //       content: Text("Please enter all required fields."),
+  //     );
+  //     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  //   }
+  // }
+
   void validate(BuildContext context) async {
     final FormState form = _viewPasswordformKey.currentState!;
 
     if (form.validate()) {
-      final newPass = AddPasswordModel(
-        addeddate: context.read<AddPasswordProvider>().addeddate,
-        title: titlecontroller.text.trim(),
-        url: urlcontroller.text.trim(),
-        username: usernamecontroller.text.trim(),
-        password: passwordcontroller.text.trim(),
-        notes: notescontroller.text.trim(),
-        id: context.read<AddPasswordProvider>().id,
-      );
-      context
-          .read<DatabaseService>()
-          .updatePassword(
-            password: newPass,
-          )
-          .then((value) {
-        context.read<AddPasswordProvider>().userPasswords = [];
+      if (didAuthenticate) {
+        final newPass = AddPasswordModel(
+          addeddate: context.read<AddPasswordProvider>().addeddate,
+          title: titlecontroller.text.trim(),
+          url: urlcontroller.text.trim(),
+          username: usernamecontroller.text.trim(),
+          password: passwordcontroller.text.trim(),
+          notes: notescontroller.text.trim(),
+          id: context.read<AddPasswordProvider>().id,
+        );
+        context
+            .read<DatabaseService>()
+            .updatePassword(
+              password: newPass,
+            )
+            .then((value) {
+          context.read<AddPasswordProvider>().userPasswords = [];
 
-        context.read<AddPasswordProvider>().fatchdata;
-      });
+          context.read<AddPasswordProvider>().fatchdata;
+        });
 
-      Navigator.pop(context);
+        Navigator.pop(context);
+      } else {
+        const snackbar = SnackBar(
+          content: Text("Please authenticate with biometrics."),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
     } else {
       const snackbar = SnackBar(
         content: Text("Please enter all required fields."),
@@ -354,6 +394,10 @@ class _ViewPasswordState extends State<ViewPassword> {
                           setState(() {
                             isObsecured = !isObsecured;
                           });
+                        } else {
+                          const snackBar =
+                              SnackBar(content: Text('Please authenticate!'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                         // encryptData();
                         // encryptPass(passwordcontroller.text.toString());

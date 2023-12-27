@@ -152,9 +152,9 @@ class _LoginPageState extends State<LoginPage> {
                       height: size.height * 0.01,
                     ),
                     const Text(
-                      'Once you save a password in NepPass. you\'ll '
+                      'Once you save a password, you\'ll '
                       'always have it when you need it. logging in is fast '
-                      'and easy.',
+                      'and easy. And the password is securely stored!',
                       style: TextStyle(
                         // fontWeight: FontWeight.bold,
                         fontSize: 14,

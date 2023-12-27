@@ -13,7 +13,7 @@ class GeneratorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Generator',
+          'Password Generator',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
