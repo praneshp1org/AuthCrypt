@@ -80,7 +80,7 @@ class _VaultPageState extends State<VaultPage> {
                                                 controller: _controller,
                                                 scrollDirection: Axis.vertical,
                                                 physics:
-                                                    const AlwaysScrollableScrollPhysics(),
+                                                    const BouncingScrollPhysics(),
                                                 shrinkWrap: true,
                                                 separatorBuilder: (context,
                                                         index) =>
@@ -243,51 +243,54 @@ class _VaultPageState extends State<VaultPage> {
             ),
           );
         },
-        child: ListTile(
-          title: Text(
-            data.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
+        child: Card(
+          elevation: 4,
+          child: ListTile(
+            title: Text(
+              data.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          subtitle: Text(
-            calculateDifference(data.addeddate) == 0
-                ? 'Added Today'
-                : calculateDifference(data.addeddate) == 1
-                    ? 'Added Yesterday'
-                    : 'Added ${calculateDifference(data.addeddate)} days ago',
-          ),
-          leading: FutureBuilder<String>(
-            initialData: '',
-            future: context
-                .read<AddPasswordProvider>()
-                .getFavcicoUrl(url: data.url!),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-              if (snapshot.hasData) {
-                return CachedNetworkImage(
-                  placeholder: (context, url) => const SizedBox(
-                    height: 32,
-                    width: 32,
-                    child: CircularProgressIndicator(),
-                  ),
-                  imageUrl: snapshot.data!,
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.error_outline,
-                    size: 32,
-                  ),
-                );
-              }
+            subtitle: Text(
+              calculateDifference(data.addeddate) == 0
+                  ? 'Added Today'
+                  : calculateDifference(data.addeddate) == 1
+                      ? 'Added Yesterday'
+                      : 'Added ${calculateDifference(data.addeddate)} days ago',
+            ),
+            leading: FutureBuilder<String>(
+              initialData: '',
+              future: context
+                  .read<AddPasswordProvider>()
+                  .getFavcicoUrl(url: data.url!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.hasData) {
+                  return CachedNetworkImage(
+                    placeholder: (context, url) => const SizedBox(
+                      height: 32,
+                      width: 32,
+                      child: CircularProgressIndicator(),
+                    ),
+                    imageUrl: snapshot.data!,
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error_outline,
+                      size: 32,
+                    ),
+                  );
+                }
 
-              return const Icon(
-                Icons.language_outlined,
-                size: 32,
-              );
-            },
+                return const Icon(
+                  Icons.language_outlined,
+                  size: 32,
+                );
+              },
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios),
           ),
-          trailing: const Icon(Icons.arrow_forward_ios),
         ),
       ),
     );

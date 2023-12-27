@@ -21,6 +21,7 @@ class _AddPasswordState extends State<AddPassword> {
   final passwordcontroller = TextEditingController();
   final notescontroller = TextEditingController();
   bool isObsecured = true;
+
   final GlobalKey<FormState> _addPasswordformKey = GlobalKey<FormState>();
 
   void validate(BuildContext context) async {

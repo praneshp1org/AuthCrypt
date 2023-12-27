@@ -1,11 +1,14 @@
 import 'package:authcrypt/models/addPasswordModel.dart';
 import 'package:authcrypt/provider/addPasswordProvider.dart';
 import 'package:authcrypt/services/databaseService.dart';
+import 'package:authcrypt/utils/masterPassUtil.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:provider/provider.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ViewPassword extends StatefulWidget {
   const ViewPassword({super.key});
@@ -22,6 +25,15 @@ class _ViewPasswordState extends State<ViewPassword> {
   final passwordcontroller = TextEditingController();
   final notescontroller = TextEditingController();
   bool isObsecured = true;
+
+  bool decrypt = false;
+  String decrypted = "";
+  late encrypt.Encrypted encrypted;
+  String keyString = "";
+  String encryptedString = "";
+  String decryptedString = "";
+  String masterPassString = "";
+
   final GlobalKey<FormState> _viewPasswordformKey = GlobalKey<FormState>();
 
   void validate(BuildContext context) async {
@@ -76,6 +88,32 @@ class _ViewPasswordState extends State<ViewPassword> {
     notescontroller.dispose();
     focus.dispose();
     super.dispose();
+  }
+
+  void loadMasterPassword() async {
+    String? password = await SharedPreferencesUtils.getMasterPassword();
+    setState(() {
+      masterPassString = password!;
+    });
+  }
+
+  encryptPass(String text) {
+    keyString = masterPassString;
+    if (keyString.length < 32) {
+      int count = 32 - keyString.length;
+      for (var i = 0; i < count; i++) {
+        keyString += ".";
+      }
+    }
+    final key = encrypt.Key.fromUtf8(keyString);
+    final plainText = text;
+    final iv = encrypt.IV.fromLength(16);
+
+    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+    final e = encrypter.encrypt(plainText, iv: iv);
+    encryptedString = e.base64.toString();
+
+    // print(encryptedString);
   }
 
   @override
@@ -195,7 +233,7 @@ class _ViewPasswordState extends State<ViewPassword> {
                 const Row(
                   children: [
                     Text(
-                      'User Name ',
+                      'Username ',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -261,6 +299,8 @@ class _ViewPasswordState extends State<ViewPassword> {
                         isObsecured ? Icons.visibility : Icons.visibility_off,
                       ),
                       onTap: () {
+                        // encryptData();
+                        encryptPass('Pranesh');
                         setState(() {
                           isObsecured = !isObsecured;
                         });

@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 class Consts {
   static const THEME_STATUS = "THEME_STATUS";
   static const APP_NAME = "AuthCrypt";
