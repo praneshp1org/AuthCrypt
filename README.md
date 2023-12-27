@@ -53,5 +53,4 @@
     ├── utils
     └── widgets
             ├── customButton.dart
-    │       ├── customSearchField.dart
-    │     
+            ├── customSearchField.dart    
