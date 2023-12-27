@@ -113,7 +113,8 @@ class _ViewPasswordState extends State<ViewPassword> {
     final e = encrypter.encrypt(plainText, iv: iv);
     encryptedString = e.base64.toString();
 
-    // print(encryptedString);
+    print("Original: " + plainText);
+    print("Encrpted: " + encryptedString);
   }
 
   @override
@@ -300,7 +301,7 @@ class _ViewPasswordState extends State<ViewPassword> {
                       ),
                       onTap: () {
                         // encryptData();
-                        encryptPass('Pranesh');
+                        // encryptPass(passwordcontroller.text.toString());
                         setState(() {
                           isObsecured = !isObsecured;
                         });
