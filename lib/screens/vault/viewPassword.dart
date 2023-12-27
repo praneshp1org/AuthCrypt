@@ -6,9 +6,11 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:provider/provider.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewPassword extends StatefulWidget {
   const ViewPassword({super.key});
@@ -25,6 +27,8 @@ class _ViewPasswordState extends State<ViewPassword> {
   final passwordcontroller = TextEditingController();
   final notescontroller = TextEditingController();
   bool isObsecured = true;
+
+  bool didAuthenticate = false;
 
   bool decrypt = false;
   String decrypted = "";
@@ -77,6 +81,44 @@ class _ViewPasswordState extends State<ViewPassword> {
     passwordcontroller.text = context.read<AddPasswordProvider>().password;
     notescontroller.text = context.read<AddPasswordProvider>().notes!;
     super.initState();
+    authenticate();
+  }
+
+  authenticate() async {
+    var localAuth = LocalAuthentication();
+    didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Authenticate to view password!',
+        options: AuthenticationOptions(biometricOnly: true, stickyAuth: true));
+  }
+
+  Future<bool> _getBiometricStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('biometricEnabled') ?? false;
+  }
+
+  Future<bool> _authenticateWithBiometrics() async {
+    var localAuth = LocalAuthentication();
+
+    try {
+      // Check if biometric authentication is available
+      bool canCheckBiometrics = await localAuth.canCheckBiometrics;
+
+      if (canCheckBiometrics) {
+        // Authenticate the user
+        bool didAuthenticate = await localAuth.authenticate(
+            localizedReason: 'Authenticate with biometrics',
+            options:
+                AuthenticationOptions(biometricOnly: true, stickyAuth: true));
+
+        return didAuthenticate;
+      } else {
+        // Biometric authentication is not available
+        return false;
+      }
+    } catch (e) {
+      print('Error during biometric authentication: $e');
+      return false;
+    }
   }
 
   @override
@@ -299,12 +341,25 @@ class _ViewPasswordState extends State<ViewPassword> {
                       child: Icon(
                         isObsecured ? Icons.visibility : Icons.visibility_off,
                       ),
-                      onTap: () {
+                      onTap: () async {
+                        // bool isBiometricEnabled = await _getBiometricStatus();
+                        // if (isBiometricEnabled) {
+                        //   bool isAuthenicated =
+                        //       await _authenticateWithBiometrics();
+                        //   if (!isAuthenicated) {
+                        //     return;
+                        //   }
+                        // }
+                        if (didAuthenticate) {
+                          setState(() {
+                            isObsecured = !isObsecured;
+                          });
+                        }
                         // encryptData();
                         // encryptPass(passwordcontroller.text.toString());
-                        setState(() {
-                          isObsecured = !isObsecured;
-                        });
+                        // setState(() {
+                        //   isObsecured = !isObsecured;
+                        // });
                       },
                     ),
                   ),

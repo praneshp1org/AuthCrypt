@@ -5,6 +5,7 @@ import 'package:authcrypt/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
   bool isObsecured = true;
+  bool _isBiometricEnabled = false;
+
   _storeOnboardInfo() async {
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,6 +31,56 @@ class _RegisterPageState extends State<RegisterPage> {
   _savePassword(String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('password', password);
+  }
+
+  //   _saveBiometric(String password) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('password', password);
+  // }
+  _saveBiometric(bool isEnabled) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('biometricEnabled', isEnabled);
+  }
+
+  _saveBiometricPassword(String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('biometricPassword', password);
+  }
+
+  Future<void> _collectBiometricData() async {
+    var localAuth = LocalAuthentication();
+    try {
+      // Check if biometric authentication is available
+      bool canCheckBiometrics = await localAuth.canCheckBiometrics;
+      if (canCheckBiometrics) {
+        // Authenticate the user
+        bool didAuthenticate = await localAuth.authenticate(
+          localizedReason: 'Enable biometric authentication for added security',
+          options: AuthenticationOptions(stickyAuth: true, biometricOnly: true),
+          // useErrorDialogs: true,
+          // stickyAuth: true,
+        );
+
+        if (didAuthenticate) {
+          // Save biometric status after successful authentication
+          _saveBiometric(true);
+          print('Biometric saved');
+        }
+      }
+    } catch (e) {
+      print('Error during biometric authentication: $e');
+    }
+  }
+
+  authenticate() async {
+    var localAuth = LocalAuthentication();
+    bool didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Authenticate',
+        options: AuthenticationOptions(biometricOnly: true, stickyAuth: true));
+
+    if (!didAuthenticate) {
+      Navigator.pop(context);
+    }
   }
 
   final GlobalKey<FormState> _registerformKey = GlobalKey<FormState>();
@@ -64,6 +117,13 @@ class _RegisterPageState extends State<RegisterPage> {
     confirmpasswordController.dispose();
     focus.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authenticate();
   }
 
   @override
