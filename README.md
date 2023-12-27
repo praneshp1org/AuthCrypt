@@ -1,11 +1,13 @@
 # AuthCrypt: AES Encrypted Security in Password Management
 
 **Features**
+- One master password
+- Biometrics for password viewing enabling two-layer security
 - AES Encrypted Security in Password Management
 - Dark and Light Theme mode
 - Saves user data to local Storage
 - Search Password feature
-- Generate Random Password seamlessly
+- Random password generation feature
 - Password Strength Meter
 
 **Packages we are using:**
