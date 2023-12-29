@@ -224,31 +224,43 @@ class _ViewPasswordState extends State<ViewPassword> {
             icon: const Icon(
               Icons.copy,
             ),
-            onPressed: () {
-              Clipboard.setData(
-                ClipboardData(
-                  text: context.read<AddPasswordProvider>().password,
-                ),
-              ).then(
-                (value) {
-                  return ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Password copied to clipboard'),
-                    ),
-                  );
-                },
-              );
+            onPressed: () async {
+              if (didAuthenticate) {
+                Clipboard.setData(
+                  ClipboardData(
+                    text: context.read<AddPasswordProvider>().password,
+                  ),
+                ).then(
+                  (value) {
+                    return ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Password copied to clipboard'),
+                      ),
+                    );
+                  },
+                );
+              } else {
+                const snackBar =
+                    SnackBar(content: Text('You have to authenticate!'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             },
           ),
           IconButton(
             icon: const Icon(
               Icons.delete_forever_outlined,
             ),
-            onPressed: () {
-              context.read<AddPasswordProvider>().deletePassword();
-              context.read<AddPasswordProvider>().userPasswords = [];
-              context.read<AddPasswordProvider>().fatchdata;
-              Navigator.pop(context);
+            onPressed: () async {
+              if (didAuthenticate) {
+                context.read<AddPasswordProvider>().deletePassword();
+                context.read<AddPasswordProvider>().userPasswords = [];
+                context.read<AddPasswordProvider>().fatchdata;
+                Navigator.pop(context);
+              } else {
+                const snackBar =
+                    SnackBar(content: Text('You have to authenticate!'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             },
           ),
         ],
